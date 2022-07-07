@@ -1,0 +1,80 @@
+﻿<Window x:Class="Wordle_Aid.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wordle_Aid"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="530" Width="730" ResizeMode="CanMinimize"
+        Background="Azure">
+    <Grid Name="MyGrid" Background="AliceBlue" Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.15*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.3*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.15*" />
+        </Grid.RowDefinitions>
+        <TextBox Name="inputbox"
+                 Grid.Row="5"
+                 Grid.Column="2"
+                 Grid.ColumnSpan="3"
+                 Height="40"
+                 Width="150"
+                 FontSize="25"
+                 FontFamily="Clear Sans"
+                 Text="Type Here"
+                 VerticalContentAlignment="Center"
+                 HorizontalContentAlignment="Center"
+                 MouseDoubleClick="inputbox_MouseLeftButtonDown" Margin="36,36,31,33"/>
+        <Button Content="Submit"
+                Grid.Column="4"
+                Grid.Row="5"
+                Height="40"
+                Click="Submit_Click"
+                FontSize="20"
+                FontFamily="Arial, Sans-serif"
+                Foreground="WhiteSmoke"
+                Background="Green" 
+                Grid.ColumnSpan="2" 
+                Margin="44,34,0,30"/>
+        <Button Content="Clear"
+                Grid.Column="0"
+                Grid.Row="5" 
+                Margin="10"
+                Height="40"
+                Background="Crimson"
+                FontSize="20"
+                FontFamily="Arial, Sans-serif"
+                Foreground="WhiteSmoke"
+                Click="Clear_Click"/>
+        <Button Content="Generate List"
+                Grid.Column="6"
+                Grid.Row="5"
+                Foreground="WhiteSmoke"
+                Background="Blue"
+                Height="40"
+                FontSize="20"
+                FontFamily="Arial, Sans-serif"
+                Click="Generate_Click" Margin="30,34,30,30" />
+        <ListView Name="WordList" 
+                  Grid.Column="6" 
+                  Margin="53,27,30,10" 
+                  Grid.RowSpan="5"
+                  FontFamily="Clear Sans"
+                  FontSize="16"/>
+
+
+    </Grid>
+</Window>
+
