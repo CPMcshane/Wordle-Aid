@@ -16,6 +16,8 @@ You can continue to enter words and generate lists. Use the clear
 button to reset everything.
 
 ## TO-DO
-Comment the code
-Video Tutorial
-App icon
+* Comment the code
+* Smooth out some of the logic
+* Change variable names
+* Video Tutorial
+* App icon
