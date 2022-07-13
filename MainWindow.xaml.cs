@@ -34,16 +34,20 @@ namespace Wordle_Aid
 
         #region Non-Public Properties
 
-        private int NextRow
+        private int NextAvailableRow
         {
             get { return _nextRow; }
             set { _nextRow = value; }
         }
+        private int NextAvailableButton { get; set; } = 0;
 
         #endregion
 
         #region Non-Public Methods
 
+        /// <summary>
+        /// Toggles the color of the pressed button in the array of boxes.
+        /// </summary>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button clicked_button = (Button)sender;
@@ -54,6 +58,11 @@ namespace Wordle_Aid
             else
                 clicked_button.Background = Brushes.Orange;
         }
+
+        /// <summary>
+        /// Called during construction creates a 5x5 array of boxes.
+        /// </summary>
+        /// <param name="Button_Click"></param>
         private void CreateButtons(RoutedEventHandler Button_Click)
         {
             for (int i = 0; i < 5; i++)
@@ -78,41 +87,50 @@ namespace Wordle_Aid
             }
         }
 
-        private void inputbox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        /// <summary>
+        /// Clears the text in the inputbox.
+        /// </summary>
+        private void InputboxDoubleClick(object sender, MouseButtonEventArgs e)
         {
             inputbox.Text = "";
         }
 
-        private void Submit_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Takes the word in the input box and moves the letter to the next available row.
+        /// </summary>
+        private void SubmitButtonClick(object sender, RoutedEventArgs e)
         {
-            string word = inputbox.Text;
-            if (word.Length != 5)
+            // Make sure the word is 5 letters long
+            string Inputword = inputbox.Text;
+            if (Inputword.Length != 5)
                 MessageBox.Show("Submitted word must be 5 letters long", "Word Length Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
-            if (NextRow == 5)
+            // Check if there is an availble row in the button array
+            if (NextAvailableRow == 5)
                 MessageBox.Show("No more space", "Word space error", MessageBoxButton.OK, MessageBoxImage.Error);
 
-            int i = 0;
+            // Goes through each letter in the input word and adds it
+            // to the a button in the next available row in the button array
+            int letterIndex = 0;
             foreach (char letter in inputbox.Text)
             {
-                string name = $"UxButton{NextRow}{i}";
+                string targetButtonName = $"UxButton{NextAvailableRow}{letterIndex}";
                 foreach (Button b in ButtonList)
                 {
-                    if (b.Name == name)
+                    if (b.Name == targetButtonName)
                     {
                         b.Content = letter.ToString().ToUpper();
                         UsedButtonList.Add(b);
-                        i++;
+                        letterIndex++;
                     }
                 }
             }
-            NextRow += 1;
+            NextAvailableRow += 1;
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             WordList.Items.Clear();
-            NextRow = 0;
+            NextAvailableRow = 0;
             foreach (Button b in ButtonList)
             {
                 b.Content = "";

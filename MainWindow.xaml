@@ -36,12 +36,13 @@
                  Text="Type Here"
                  VerticalContentAlignment="Center"
                  HorizontalContentAlignment="Center"
-                 MouseDoubleClick="inputbox_MouseLeftButtonDown" Margin="36,36,31,33"/>
+                 MouseDoubleClick="InputboxDoubleClick"
+                 Margin="36,36,31,33"/>
         <Button Content="Submit"
                 Grid.Column="4"
                 Grid.Row="5"
                 Height="40"
-                Click="Submit_Click"
+                Click="SubmitButtonClick"
                 FontSize="20"
                 FontFamily="Arial, Sans-serif"
                 Foreground="WhiteSmoke"
