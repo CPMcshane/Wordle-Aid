@@ -103,12 +103,16 @@ namespace Wordle_Aid
             // Make sure the word is 5 letters long
             string Inputword = inputbox.Text;
             if (Inputword.Length != 5)
+            {
                 MessageBox.Show("Submitted word must be 5 letters long", "Word Length Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                
+                return;
+            }
             // Check if there is an availble row in the button array
             if (NextAvailableButton == 25)
+            {
                 MessageBox.Show("No more space", "Word space error", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                return;
+            }
             // Goes through each letter in the input word and adds it
             // to the next available button
             foreach (char letter in inputbox.Text)
