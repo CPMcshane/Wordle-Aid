@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Wordle_Aid.RECaracter;
 
 namespace Wordle_Aid
 {
@@ -213,35 +214,6 @@ namespace Wordle_Aid
         private List<string> MustContainList { get; set; } = new List<string>();
 
         #endregion
-
-        private class RECharacter
-        {
-            public RECharacter()
-            {
-                PossibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            }
-            internal void RemoveCharacter(string character)
-            {
-                if (CharacterFound)
-                    return;
-
-                PossibleCharacters = PossibleCharacters.Replace(character, "");
-            }
-            internal void AddCorrectAnswer(string character)
-            {
-                PossibleCharacters = "";
-                PossibleCharacters += character;
-                CharacterFound = true;
-            }
-            internal string FinalResult()
-            {
-                return $"[{PossibleCharacters}]";
-            }
-
-            private string PossibleCharacters { get; set; }
-
-            private bool CharacterFound { get; set; } = false;
-        }
 
     }
 }
