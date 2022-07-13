@@ -80,8 +80,8 @@ namespace Wordle_Aid
                     };
                     b.Click += Button_Click;
                     MyGrid.Children.Add(b);
-                    Grid.SetColumn(b, i + 1);
-                    Grid.SetRow(b, j);
+                    Grid.SetColumn(b, j + 1);
+                    Grid.SetRow(b, i);
                     ButtonList.Add(b);
                 }
             }
@@ -104,33 +104,24 @@ namespace Wordle_Aid
             string Inputword = inputbox.Text;
             if (Inputword.Length != 5)
                 MessageBox.Show("Submitted word must be 5 letters long", "Word Length Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                
             // Check if there is an availble row in the button array
-            if (NextAvailableRow == 5)
+            if (NextAvailableButton == 25)
                 MessageBox.Show("No more space", "Word space error", MessageBoxButton.OK, MessageBoxImage.Error);
 
             // Goes through each letter in the input word and adds it
-            // to the a button in the next available row in the button array
-            int letterIndex = 0;
+            // to the next available button
             foreach (char letter in inputbox.Text)
             {
-                string targetButtonName = $"UxButton{NextAvailableRow}{letterIndex}";
-                foreach (Button b in ButtonList)
-                {
-                    if (b.Name == targetButtonName)
-                    {
-                        b.Content = letter.ToString().ToUpper();
-                        UsedButtonList.Add(b);
-                        letterIndex++;
-                    }
-                }
+                ButtonList[NextAvailableButton].Content = letter.ToString().ToUpper();
+                NextAvailableButton++;
             }
-            NextAvailableRow += 1;
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             WordList.Items.Clear();
-            NextAvailableRow = 0;
+            NextAvailableButton = 0;
             foreach (Button b in ButtonList)
             {
                 b.Content = "";
