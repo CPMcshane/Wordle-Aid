@@ -224,7 +224,7 @@ namespace Wordle_Aid
             // Puts the RE together from the RECharacter classes results
             foreach (RECharacter character in RegExpressionList)
             {
-                _regExpression += character.FinalResult();
+                _regExpression += character.FinalResult;
             }
             return _regExpression;
         }
