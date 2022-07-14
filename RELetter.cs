@@ -11,6 +11,7 @@ namespace Wordle_Aid.RECaracter
         public RECharacter()
         {
             PossibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            CharacterFound = false;
         }
         internal void RemoveCharacter(string character)
         {
@@ -25,13 +26,13 @@ namespace Wordle_Aid.RECaracter
             PossibleCharacters += character;
             CharacterFound = true;
         }
-        internal string FinalResult()
+        public string FinalResult
         {
-            return $"[{PossibleCharacters}]";
+            get { return $"[{PossibleCharacters}]"; }
         }
 
-        private string PossibleCharacters { get; set; }
+        private string PossibleCharacters;
 
-        private bool CharacterFound { get; set; } = false;
+        private bool CharacterFound;
     }
 }

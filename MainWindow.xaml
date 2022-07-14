@@ -58,7 +58,7 @@
                 FontSize="20"
                 FontFamily="Arial, Sans-serif"
                 Foreground="WhiteSmoke"
-                Click="Clear_Click"/>
+                Click="ClearButtonClick"/>
         <Button Content="Generate List"
                 Grid.Column="6"
                 Grid.Row="5"
@@ -67,7 +67,7 @@
                 Height="40"
                 FontSize="20"
                 FontFamily="Arial, Sans-serif"
-                Click="Generate_Click" Margin="30,34,30,30" />
+                Click="GenerateButtonClick" Margin="30,34,30,30" />
         <ListView Name="WordList" 
                   Grid.Column="6" 
                   Margin="53,27,30,10" 
