@@ -26,7 +26,7 @@ namespace Wordle_Aid
         public MainWindow()
         {
             InitializeComponent();
-            CreatDictionary();
+            CreateWordList();
             CreateButtons(Button_Click);
         }
 
@@ -34,11 +34,6 @@ namespace Wordle_Aid
 
         #region Non-Public Properties
 
-        private int NextAvailableRow
-        {
-            get { return _nextRow; }
-            set { _nextRow = value; }
-        }
         private int NextAvailableButton { get; set; } = 0;
 
         #endregion
@@ -80,8 +75,8 @@ namespace Wordle_Aid
                     };
                     b.Click += Button_Click;
                     MyGrid.Children.Add(b);
-                    Grid.SetColumn(b, i + 1);
-                    Grid.SetRow(b, j);
+                    Grid.SetColumn(b, j + 1);
+                    Grid.SetRow(b, i);
                     ButtonList.Add(b);
                 }
             }
@@ -103,34 +98,32 @@ namespace Wordle_Aid
             // Make sure the word is 5 letters long
             string Inputword = inputbox.Text;
             if (Inputword.Length != 5)
+            {
                 MessageBox.Show("Submitted word must be 5 letters long", "Word Length Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             // Check if there is an availble row in the button array
-            if (NextAvailableRow == 5)
+            if (NextAvailableButton == 25)
+            {
                 MessageBox.Show("No more space", "Word space error", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                return;
+            }
             // Goes through each letter in the input word and adds it
-            // to the a button in the next available row in the button array
-            int letterIndex = 0;
+            // to the next available button
             foreach (char letter in inputbox.Text)
             {
-                string targetButtonName = $"UxButton{NextAvailableRow}{letterIndex}";
-                foreach (Button b in ButtonList)
-                {
-                    if (b.Name == targetButtonName)
-                    {
-                        b.Content = letter.ToString().ToUpper();
-                        UsedButtonList.Add(b);
-                        letterIndex++;
-                    }
-                }
+                ButtonList[NextAvailableButton].Content = letter.ToString().ToUpper();
+                NextAvailableButton++;
             }
-            NextAvailableRow += 1;
         }
 
-        private void Clear_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Resets everything back to original state.
+        /// </summary>
+        private void ClearButtonClick(object sender, RoutedEventArgs e)
         {
             WordList.Items.Clear();
-            NextAvailableRow = 0;
+            NextAvailableButton = 0;
             foreach (Button b in ButtonList)
             {
                 b.Content = "";
@@ -139,34 +132,46 @@ namespace Wordle_Aid
             UsedButtonList.Clear();
         }
 
-        private void Generate_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Gets the regular expression and searches for matches.
+        /// </summary>
+        private void GenerateButtonClick(object sender, RoutedEventArgs e)
         {
+            // Clears current list of words
             WordList.Items.Clear();
-            bool Missing = false;
+            // Calls for creation of the Regular Expression
             string regExpression = CreateRegExpression();
-            Regex re = new Regex(regExpression);
+            Regex re = new(regExpression);
+
+            // Begin the search for compatible words
             foreach (string lowerCaseWord in _wordList)
             {
+                bool missing = false;
                 string word = lowerCaseWord.ToUpper();
                 if (re.IsMatch(word))
                 {
+                    // Check if the word contains all of the
+                    // required letters
                     foreach (string letter in MustContainList) 
                     {
                         if (!word.Contains(letter))
                         {
-                            Missing = true;
+                            missing = true;
                             break;
                         }                           
                     }
-                    if (!Missing) WordList.Items.Add(word);
-                    Missing = false;
+                    if (!missing) WordList.Items.Add(word);
+                    
                 }
                     
             }
             MustContainList.Clear();
         }
 
-        private void CreatDictionary()
+        /// <summary>
+        /// Reads text file of 5 letter words into a list. 
+        /// </summary>
+        private void CreateWordList()
         {
             string[] lines = File.ReadAllLines(@"..\..\..\Dictionary\WordDictionary.txt");
             foreach (string line in lines)
@@ -177,6 +182,7 @@ namespace Wordle_Aid
 
         private string CreateRegExpression()
         {
+            // Creates classes cooresponding to each letter in our RE
             string _regExpression = "";          
             List<RECharacter> RegExpressionList = new List<RECharacter>();
             for (int i = 0; i < 5; i++)
@@ -184,14 +190,17 @@ namespace Wordle_Aid
                 RECharacter character = new RECharacter();
                 RegExpressionList.Add(character);
             }
-
+            // Goes through each inputed charcter and edits the RE
+            // classes based on the color of the button
             int index = 0;
             foreach (Button b in UsedButtonList)
             {
+                // Green means correct letter and correct spot
                 if (b.Background == Brushes.GreenYellow)
                 {
                     RegExpressionList[index].AddCorrectAnswer(b.Content.ToString());
                 }
+                // Orange meand correct letter and incorrect spot
                 else if (b.Background == Brushes.Orange)
                 {
                     for (int i = 0; i < 5; i++)
@@ -200,6 +209,7 @@ namespace Wordle_Aid
                     }
                     MustContainList.Add(b.Content.ToString());
                 }
+                // Gray means the letter is nowhere in our target word
                 else
                 {
                     for (int i = 0; i < 5; i++)
@@ -211,9 +221,10 @@ namespace Wordle_Aid
                 if (index == 4) index = 0;
                 else index++;
             }
+            // Puts the RE together from the RECharacter classes results
             foreach (RECharacter character in RegExpressionList)
             {
-                _regExpression += character.FinalResult();
+                _regExpression += character.FinalResult;
             }
             return _regExpression;
         }
@@ -222,14 +233,10 @@ namespace Wordle_Aid
 
         #region Fields
 
-        private int _nextRow;
-
         private List<string> _wordList = new List<string>();
-
         private List<Button> ButtonList = new List<Button>();
-
         private List<Button> UsedButtonList = new List<Button>();
-        private List<string> MustContainList { get; set; } = new List<string>();
+        private List<string> MustContainList  = new List<string>();
 
         #endregion
 

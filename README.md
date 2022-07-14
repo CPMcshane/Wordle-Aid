@@ -21,3 +21,6 @@ button to reset everything.
 * Change variable names
 * Video Tutorial
 * App icon
+
+## Known Issues
+* Input box allows spaces in the word
