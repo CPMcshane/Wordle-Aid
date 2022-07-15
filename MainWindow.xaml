@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Wordle_Aid"
         mc:Ignorable="d"
         Title="MainWindow" Height="530" Width="730" ResizeMode="CanMinimize"
-        Background="Azure">
-    <Grid Name="MyGrid" Background="AliceBlue" Margin="20">
+        Background="Black" >
+    <Grid Name="MyGrid" Background="Black" Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.15*" />
             <ColumnDefinition Width="0.1*" />
@@ -29,7 +29,6 @@
                  Grid.Row="5"
                  Grid.Column="2"
                  Grid.ColumnSpan="3"
-                 Height="40"
                  Width="150"
                  FontSize="22"
                  FontFamily="Clear Sans"
@@ -38,7 +37,7 @@
                  HorizontalContentAlignment="Center"
                  MouseDoubleClick="InputboxDoubleClick"
                  CharacterCasing="Upper"
-                 Margin="36,36,31,33"/>
+                 Margin="36,39,31,33"/>
         <Button Content="SUBMIT"
                 Grid.Column="4"
                 Grid.Row="5"
