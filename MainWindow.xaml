@@ -38,17 +38,6 @@
                  MouseDoubleClick="InputboxDoubleClick"
                  CharacterCasing="Upper"
                  Margin="36,39,31,33"/>
-        <Button Content="SUBMIT"
-                Grid.Column="4"
-                Grid.Row="5"
-                Height="40"
-                Click="SubmitButtonClick"
-                FontSize="18"
-                FontFamily="Arial, Sans-serif"
-                Foreground="WhiteSmoke"
-                Background="Green" 
-                Grid.ColumnSpan="2" 
-                Margin="44,34,0,30"/>
         <Button Content="CLEAR"
                 Grid.Column="0"
                 Grid.Row="5" 

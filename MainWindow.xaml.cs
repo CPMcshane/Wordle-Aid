@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -20,6 +21,7 @@ namespace Wordle_Aid
             InitializeComponent();
             CreateWordList();
             CreateButtons(Button_Click);
+            this.KeyDown += MainWindow_KeyDown;
         }
 
         #endregion
@@ -31,6 +33,39 @@ namespace Wordle_Aid
         #endregion
 
         #region Non-Public Methods
+
+        /// <summary>
+        /// Takes the word in the input box and moves the letter to the next available row.
+        /// </summary>
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key.ToString().Equals("Return"))
+            {
+                // Make sure the word is 5 letters long
+                string Inputword = inputbox.Text;
+                if (Inputword.Length != 5)
+                {
+                    ErrorMessage.Text = "WORD MUST BE 5 LETTERS LONG";
+                    return;
+                }
+                // Check if there is an availble row in the button array
+                if (NextAvailableButton == 25)
+                {
+                    ErrorMessage.Text = "NO MORE SPACE";
+                    return;
+                }
+                // Clear error message box
+                ErrorMessage.Text = "";
+                // Goes through each letter in the input word and adds it
+                // to the next available button
+                foreach (char letter in inputbox.Text)
+                {
+                    ButtonList[NextAvailableButton].Content = letter.ToString().ToUpper();
+                    NextAvailableButton++;
+                }
+                inputbox.Text = "";
+            }
+        }
 
         /// <summary>
         /// Toggles the color of the pressed button in the array of boxes.
@@ -47,69 +82,11 @@ namespace Wordle_Aid
         }
 
         /// <summary>
-        /// Called during construction creates a 5x5 array of boxes.
-        /// </summary>
-        /// <param name="Button_Click"></param>
-        private void CreateButtons(RoutedEventHandler Button_Click)
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                for (int j = 0; j < 5; j++)
-                {
-                    Button b = new Button
-                    {
-                        Name = $"UxButton{j}{i}",
-                        Background = Brushes.LightGray,
-                        Margin = new Thickness(2),
-                        FontSize = 25,
-                        FontFamily = new FontFamily("Clear Sans"),
-                        FontWeight = FontWeights.Bold,
-                    };
-                    b.Click += Button_Click;
-                    MyGrid.Children.Add(b);
-                    Grid.SetColumn(b, j + 1);
-                    Grid.SetRow(b, i);
-                    ButtonList.Add(b);
-                }
-            }
-        }
-
-        /// <summary>
         /// Clears the text in the inputbox.
         /// </summary>
         private void InputboxDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            inputbox.Text = "";
-            
-        }
-
-        /// <summary>
-        /// Takes the word in the input box and moves the letter to the next available row.
-        /// </summary>
-        private void SubmitButtonClick(object sender, RoutedEventArgs e)
-        {
-            // Make sure the word is 5 letters long
-            string Inputword = inputbox.Text;
-            if (Inputword.Length != 5)
-            {
-                ErrorMessage.Text = "WORD MUST BE 5 LETTERS LONG";
-                return;
-            }
-            // Check if there is an availble row in the button array
-            if (NextAvailableButton == 25)
-            {
-                ErrorMessage.Text = "NO MORE SPACE";
-                return;
-            }
-            // Clear error message box
-            ErrorMessage.Text = "";
-            // Goes through each letter in the input word and adds it
-            // to the next available button
-            foreach (char letter in inputbox.Text)
-            {
-                ButtonList[NextAvailableButton].Content = letter.ToString().ToUpper();
-                NextAvailableButton++;
-            }
+            inputbox.Text = "";          
         }
 
         /// <summary>
@@ -222,6 +199,34 @@ namespace Wordle_Aid
                 _regExpression += character.FinalResult;
             }
             return _regExpression;
+        }
+
+                /// <summary>
+        /// Called during construction creates a 5x5 array of boxes.
+        /// </summary>
+        /// <param name="Button_Click"></param>
+        private void CreateButtons(RoutedEventHandler Button_Click)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    Button b = new Button
+                    {
+                        Name = $"UxButton{j}{i}",
+                        Background = Brushes.LightGray,
+                        Margin = new Thickness(2),
+                        FontSize = 25,
+                        FontFamily = new FontFamily("Clear Sans"),
+                        FontWeight = FontWeights.Bold,
+                    };
+                    b.Click += Button_Click;
+                    MyGrid.Children.Add(b);
+                    Grid.SetColumn(b, j + 1);
+                    Grid.SetRow(b, i);
+                    ButtonList.Add(b);
+                }
+            }
         }
 
         #endregion

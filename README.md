@@ -5,10 +5,9 @@ gives you a list of possible answers without explicitly giving
 away the answer.
 
 ## How to Use
-Type the words you have guessed in your Wordle game into the Aid's text
-box and hit submit. Then
-click each letter to toggle the color to match the feedback you
-got from your actual Wordle game. Once you are ready hit the
+Type the words guessed in the Wordle game into the Aid's text
+box and hit enter. Then click each letter to toggle the color to match 
+the feedback given from the actual Wordle game. Once you are ready hit the
 generate words button. A list of possible words will be generated
 for you to guess from.
 
