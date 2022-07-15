@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Wordle_Aid.RECaracter;
 
 namespace Wordle_Aid
@@ -88,6 +80,7 @@ namespace Wordle_Aid
         private void InputboxDoubleClick(object sender, MouseButtonEventArgs e)
         {
             inputbox.Text = "";
+            
         }
 
         /// <summary>
@@ -99,15 +92,17 @@ namespace Wordle_Aid
             string Inputword = inputbox.Text;
             if (Inputword.Length != 5)
             {
-                MessageBox.Show("Submitted word must be 5 letters long", "Word Length Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ErrorMessage.Text = "WORD MUST BE 5 LETTERS LONG";
                 return;
             }
             // Check if there is an availble row in the button array
             if (NextAvailableButton == 25)
             {
-                MessageBox.Show("No more space", "Word space error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ErrorMessage.Text = "NO MORE SPACE";
                 return;
             }
+            // Clear error message box
+            ErrorMessage.Text = "";
             // Goes through each letter in the input word and adds it
             // to the next available button
             foreach (char letter in inputbox.Text)
