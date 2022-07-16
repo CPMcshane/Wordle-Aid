@@ -60,7 +60,9 @@ namespace Wordle_Aid
                 // to the next available button
                 foreach (char letter in inputbox.Text)
                 {
+
                     ButtonList[NextAvailableButton].Content = letter.ToString().ToUpper();
+                    UsedButtonList.Add(ButtonList[NextAvailableButton]);
                     NextAvailableButton++;
                 }
                 inputbox.Text = "";
@@ -73,12 +75,12 @@ namespace Wordle_Aid
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button clicked_button = (Button)sender;
-            if (clicked_button.Background == Brushes.Orange)
-                clicked_button.Background = Brushes.GreenYellow;
-            else if (clicked_button.Background == Brushes.GreenYellow)
+            if (clicked_button.Background == Brushes.Yellow)
+                clicked_button.Background = Brushes.LightGreen;
+            else if (clicked_button.Background == Brushes.LightGreen)
                 clicked_button.Background = Brushes.LightGray;
             else
-                clicked_button.Background = Brushes.Orange;
+                clicked_button.Background = Brushes.Yellow;
         }
 
         /// <summary>
@@ -168,12 +170,12 @@ namespace Wordle_Aid
             foreach (Button b in UsedButtonList)
             {
                 // Green means correct letter and correct spot
-                if (b.Background == Brushes.GreenYellow)
+                if (b.Background == Brushes.LightGreen)
                 {
                     RegExpressionList[index].AddCorrectAnswer(b.Content.ToString());
                 }
-                // Orange meand correct letter and incorrect spot
-                else if (b.Background == Brushes.Orange)
+                // Yellow means correct letter and incorrect spot
+                else if (b.Background == Brushes.Yellow)
                 {
                     for (int i = 0; i < 5; i++)
                     {
@@ -201,10 +203,9 @@ namespace Wordle_Aid
             return _regExpression;
         }
 
-                /// <summary>
+        /// <summary>
         /// Called during construction creates a 5x5 array of boxes.
         /// </summary>
-        /// <param name="Button_Click"></param>
         private void CreateButtons(RoutedEventHandler Button_Click)
         {
             for (int i = 0; i < 5; i++)
